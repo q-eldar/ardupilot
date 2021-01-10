@@ -808,6 +808,7 @@ ap_message GCS_MAVLINK::mavlink_id_to_ap_message_id(const uint32_t mavlink_id) c
         { MAVLINK_MSG_ID_PID_TUNING,            MSG_PID_TUNING},
         { MAVLINK_MSG_ID_VIBRATION,             MSG_VIBRATION},
         { MAVLINK_MSG_ID_RPM,                   MSG_RPM},
+        { MAVLINK_MSG_ID_PH,                    MSG_PH},
         { MAVLINK_MSG_ID_MISSION_ITEM_REACHED,  MSG_MISSION_ITEM_REACHED},
         { MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT,  MSG_POSITION_TARGET_GLOBAL_INT},
         { MAVLINK_MSG_ID_POSITION_TARGET_LOCAL_NED,  MSG_POSITION_TARGET_LOCAL_NED},
@@ -4323,6 +4324,13 @@ void GCS_MAVLINK::send_rpm() const
         rpm2);
 }
 
+void GCS_MAVLINK::send_ph() const
+{
+    float voltage = -1;
+    mavlink_msg_ph_send(
+                        chan,
+                        voltage);
+}
 void GCS_MAVLINK::send_sys_status()
 {
     // send extended status only once vehicle has been initialised
@@ -4537,6 +4545,11 @@ bool GCS_MAVLINK::try_send_message(const enum ap_message id)
         send_rpm();
         break;
 
+    case MSG_PH:
+        CHECK_PAYLOAD_SIZE(PH);
+        send_ph();
+        break;
+        
     case MSG_CURRENT_WAYPOINT:
     case MSG_MISSION_ITEM_REACHED:
     case MSG_NEXT_MISSION_REQUEST_WAYPOINTS:
