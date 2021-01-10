@@ -117,6 +117,8 @@
 #include <SITL/SITL.h>
 #endif
 
+#include <AP_PH/AP_PH.h>
+
 class Sub : public AP_Vehicle {
 public:
     friend class GCS_MAVLINK_Sub;
@@ -162,6 +164,8 @@ private:
         uint32_t last_healthy_ms;
         LowPassFilterFloat alt_cm_filt; // altitude filter
     } rangefinder_state = { false, false, 0, 0 };
+
+    AP_PH ph;
 
 #if RPM_ENABLED == ENABLED
     AP_RPM rpm_sensor;

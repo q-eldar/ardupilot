@@ -31,6 +31,9 @@ void Sub::init_ardupilot()
     // initialise notify system
     notify.init();
 
+    // ph sensor init
+    ph.init();
+
     // initialise battery monitor
     battery.init();
 

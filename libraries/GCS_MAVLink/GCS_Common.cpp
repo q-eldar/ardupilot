@@ -45,6 +45,7 @@
 #include <AP_Scripting/AP_Scripting.h>
 #include <AP_Winch/AP_Winch.h>
 #include <AP_OSD/AP_OSD.h>
+#include <AP_PH/AP_PH.h>
 
 #include <stdio.h>
 
@@ -4327,6 +4328,12 @@ void GCS_MAVLINK::send_rpm() const
 void GCS_MAVLINK::send_ph() const
 {
     float voltage = -1;
+    AP_PH *ph = AP::ph();
+    
+    if(ph != nullptr){
+        voltage = ph->read_ph_pin();
+    }
+
     mavlink_msg_ph_send(
                         chan,
                         voltage);
